@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include hoam *.css
+recursive-include hoam *.csv
+recursive-include hoam *.html
+recursive-include hoam *.ico
+recursive-include hoam *.js
+recursive-include hoam *.json
+recursive-include hoam *.md
+recursive-include hoam *.png
+recursive-include hoam *.py
+recursive-include hoam *.svg
+recursive-include hoam *.txt
+recursive-exclude hoam *.pyc
