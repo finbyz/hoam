@@ -9,6 +9,30 @@ app_color = "grey"
 app_email = "info@finbyz.com"
 app_license = "GPL 3.0"
 
+
+
+
+doctype_js = {
+	"Issue": "public/js/doctype_js/issue.js",
+}
+doc_events = {
+    "Issue": {
+        "validate": "hoam.api.issue_validate"
+    }
+}
+
+scheduler_events = {
+	"cron": {
+		"0/1 * * * *": [
+			"hoam.api.escalation_email"
+		],
+	}
+	# "all":[
+	# 	"jciw.api.make_status_overdue"
+	# ]
+}
+
+
 # Includes in <head>
 # ------------------
 
@@ -172,4 +196,3 @@ user_data_fields = [
 # auth_hooks = [
 # 	"hoam.auth.validate"
 # ]
-
