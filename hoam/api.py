@@ -54,7 +54,7 @@ def calculate_due_date(self):
 	self.due_date = due_date
 
 def escalation_email():
-	data = frappe.get_list("Issue",filters = {'job_status':['=','']},fields = 'name')
+	data = frappe.get_list("Issue",filters = {'job_status_by_sp':['=','']},fields = 'name')
 	for row in data:
 		doc = frappe.get_doc("Issue",row.name)
 		recipients = []
