@@ -53,14 +53,15 @@ def calculate_due_date(self):
 	
 	self.due_date = due_date
 
-def escalation_email(self):
+def escalation_email():
 	data = frappe.get_list("Issue",filters = {'job_status':['=','']},fields = 'name')
 	for row in data:
 		doc = frappe.get_doc("Issue",row.name)
 		recipients = []
 		if doc.due_date:
-			if str(doc.due_date) <= now() and not doc.sent:
-				recipients = doc.sp_resolution_comments.split(",")
+			if str(doc.due_date) <= now() and not doc.escalation_sent:
+				if doc.sp_email_addresses:
+					recipients = doc.sp_email_addresses.split(",\n")
 				header = "<p>Dear {}</p>".format(doc.service_provider_name or 'Sir/Mam')
 				subject = "Escalation. Case Number {} Request due at : {}".format(doc.name,doc.due_date)
 				doc.db_set('escalation_sent',1)
@@ -118,11 +119,14 @@ def escalation_email(self):
 				)
 				message = header + body
 				if recipients:
-					frappe.sendmail(
-						recipients=recipients,
-						cc = '',
-						subject = subject ,
-						#sender = sender,
-						message = message,
-						now = 1
-					)
+					try:
+						frappe.sendmail(
+							recipients=recipients,
+							cc = '',
+							subject = subject ,
+							#sender = sender,
+							message = message,
+							now = 1
+						)
+					except:
+						frappe.log_error(f"Email is not sent : {recipients}")
